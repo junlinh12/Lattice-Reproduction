@@ -1,0 +1,69 @@
+diff --git a/crates/sm/src/init.rs b/crates/sm/src/init.rs
+index f3f4a54..41a74d5 100644
+--- a/crates/sm/src/init.rs
++++ b/crates/sm/src/init.rs
+@@ -44,10 +44,12 @@ unsafe fn boothart_init<P: Platform>(platform: &P, fdt: usize) {
+     #[allow(static_mut_refs)]
+     let sm = unsafe { crate::SM.assume_init_mut() };
+ 
+-    let device = DeviceInfo::new(fdt as *const u8).unwrap();
++    let mut device = DeviceInfo::new(fdt as *const u8).unwrap();
+ 
+     init_console_uart(device.get_uart().unwrap());
+ 
++    reserve_sm_private_memory(platform, &mut device);
++
+     log::debug!("fdt: {fdt:#x}");
+     log::debug!("PMP COUNT: {}", platform.get_pmp_count());
+     log::debug!("{} do init", mhartid::read());
+@@ -90,6 +92,50 @@ unsafe fn boothart_init<P: Platform>(platform: &P, fdt: usize) {
+     unsafe { TrapHandler::init_redirect(sbi_handler) };
+ }
+ 
++fn reserve_sm_private_memory<P: Platform>(
++    platform: &P,
++    device: &mut DeviceInfo,
++) {
++    let sbi_region = platform.get_sbi_region();
++
++    // Current crates/sm layout places HEAP_SIZE bytes immediately
++    // after the SBI region, followed by SM_RW_SIZE bytes used by
++    // the PMA metadata allocator.
++    let private_size = P::HEAP_SIZE
++        .checked_add(P::SM_RW_SIZE)
++        .expect("SM private-memory size overflow");
++
++    let region = device
++        .get_mem_region_reserved()
++        .into_iter()
++        .find(|region| {
++            (region.start as usize)
++                .checked_add(region.size)
++                == Some(sbi_region.end)
++        })
++        .expect("reserved-memory region ending at SBI region not found");
++
++    let start = region.start as usize;
++
++    let new_size = region
++        .size
++        .checked_add(private_size)
++        .expect("SM reserved-memory size overflow");
++
++    let old_size = device
++        .update_reserved_mem_region_size(start, new_size)
++        .expect("failed to update SM reserved-memory region");
++
++    log::debug!(
++        "extended reserved-memory at {start:#x}: {old_size:#x} -> {new_size:#x}"
++    );
++    log::debug!(
++        "SM private region reserved for Normal World: {:#x}..{:#x}",
++        sbi_region.end,
++        sbi_region.end + private_size
++    );
++}
++
+ unsafe fn common_init<P: Platform>(_: &P) {
+     let hartid = mhartid::read();
+     log::debug!("{} start", hartid);

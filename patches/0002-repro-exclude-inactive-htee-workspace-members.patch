@@ -1,0 +1,17 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 8140972..5d675a3 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -4,6 +4,12 @@ members = [
+     "crates/*",
+     "platform/*", 
+ ]
++exclude = [
++    "crates/htee_channel",
++    "crates/htee_client",
++    "crates/htee_console",
++    "crates/htee_device",
++]
+ resolver = "2"
+ 
+ [workspace.dependencies]

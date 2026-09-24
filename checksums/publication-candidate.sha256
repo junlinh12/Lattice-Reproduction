@@ -1,0 +1,10 @@
+4940528e9712d113e5aca5fb2702811e9abbea23f21c4c0276c71d329ba66f6e  ./docs/apply-patches.md
+ae0589be93edcfe76dadb10c05970c30316943ffe99cc24305e62787626e14d3  ./docs/patch-series.md
+2b54e17fd6a476d9f2331e5e43597eb9f63df8b3d3d8de05103f090fdc2bbc1d  ./docs/reproduction-status.md
+242e1658fbd13f09390234038d7d8bb10ba8dc5290079f8a95793e8a32b46331  ./.gitignore
+110479fb027f599b97ffcd5e9695a4717ee6778590045737c2f299420c88582d  ./patches/0001-repro-remove-nonexistent-tests-workspace-member.patch
+7448ad9b78dc83e924c58d7b435bfe64d2551613c021db417822cd303f557f28  ./patches/0002-repro-exclude-inactive-htee-workspace-members.patch
+6976e2f79ff1276da7b993a76089a56738bd53bc600c9592da6621f66a95b073  ./patches/0003-repro-tolerate-missing-opensbi-firmware-build-directory.patch
+ae4944f8c529421643f6b77369c5685993572dc35d8647c3293ca71bba0540c0  ./patches/0004-repro-reserve-sm-private-memory-in-fdt.patch
+fc66d2772a6694757cb3c456c6bf9b80caf7855bbaf1d60ba78e19f0c15d6327  ./README.md
+86384c75751d78f767a23d051784269576a3d31566acfedb9ebb0de400893833  ./UPSTREAM.md

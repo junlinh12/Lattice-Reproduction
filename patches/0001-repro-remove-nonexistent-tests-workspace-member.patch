@@ -1,0 +1,11 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index a51e0cb..8140972 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,6 +1,5 @@
+ [workspace]
+ members = [
+-    "tests",
+     "runtime",
+     "crates/*",
+     "platform/*", 

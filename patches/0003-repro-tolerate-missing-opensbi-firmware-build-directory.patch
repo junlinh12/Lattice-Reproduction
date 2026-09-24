@@ -1,0 +1,13 @@
+diff --git a/platform/qemu-virt/firmware.mk b/platform/qemu-virt/firmware.mk
+index 6b8b9d8..37f88c1 100644
+--- a/platform/qemu-virt/firmware.mk
++++ b/platform/qemu-virt/firmware.mk
+@@ -41,7 +41,7 @@ $(opensbi_path):
+ 	cd $(opensbi_path) && git apply $(platform_path)/qemu.patch
+ 
+ opensbi: $(opensbi_path) $(uboot)
+-	@rm -r $(opensbi_path)/build/platform/generic/firmware/
++	@rm -rf $(opensbi_path)/build/platform/generic/firmware/
+ 	@cd $(opensbi_path) && make PLATFORM=generic CROSS_COMPILE=$(CROSS_COMPILE) \
+ 	FW_PAYLOAD_PATH=$(uboot) SM_TEXT_START=$(SM_TEXT_START) \
+ 	FW_TEXT_START=$(FW_TEXT_START) SM_PATH=$(sm_bin)
